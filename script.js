@@ -28,3 +28,34 @@ function operate(a, operator, b) {
       return null;
   }
 }
+
+// ~~~ SELECTORS ~~~ //
+const html = document.querySelector("html");
+const head = document.querySelector("head");
+const body = document.querySelector("body");
+const wrapper = document.querySelector("wrapper");
+const display = document.querySelector("display");
+const buttons = document.querySelector("buttons");
+// ~~~ SELECTORS ~~~ //
+
+function createButtons() {
+  for (let i = 0; i < 19; i++) {
+    let button = document.createElement("div");
+    button.classList.add("button");
+    buttons.appendChild(button);
+  }
+}
+
+wrapper.addEventListener("click", function (e) {
+  if (e.target.classList.contains("button")) {
+    //TODO: implement functionality
+  }
+});
+
+wrapper.addEventListener("mouseover", function (e) {
+  if (e.target.classList.contains("button")) {
+    //TODO: hovering
+  }
+});
+
+|
