@@ -155,13 +155,27 @@ function calculate() {
   calculation = calculation.replace(/[\u{00D7}]/gu, "*"); //replace multiply
   //TODO: catch invalid math expressions and show ERROR on display
   try {
-    calculation = eval(calculation);
+    calculation = Math.round(eval(calculation) * 10000) / 10000;
   } catch (e) {
     calculation = "";
   }
   if (calculation != display.innerText) evaldisplay.innerText = calculation;
   else evaldisplay.innerText = "";
-  
+}
+
+var lastShrink = 0;
+function resize() {
+  let length = display.innerText.length;
+  if (lastShrink == 0 && length <= 6) display.style.fontSize = "100px";
+  else if (length > 6 && lastShrink == 0) {
+    display.style.fontSize = "80px";
+    lastShrink = length;
+  } else if (length > lastShrink + 1 && display.style.fontSize != "20px") {
+    let tempint = parseInt(display.style.fontSize);
+    tempint -= 10;
+    display.style.fontSize = `${tempint}px`;
+    lastShrink = length;
+  }
 }
 createButtons();
 
@@ -170,10 +184,13 @@ wrapper.addEventListener("click", function (e) {
     if (!e.target.classList.contains("gray") && e.target.innerText != "=")
       display.innerText += e.target.innerText;
     calculate();
+    resize();
     switch (e.target.innerText) {
       case "AC":
         display.innerText = "";
         evaldisplay.innerText = "";
+        lastShrink = 0;
+        resize();
         break;
       case "+/-":
         if (display.innerText[0] == "-") {
@@ -184,8 +201,11 @@ wrapper.addEventListener("click", function (e) {
         write(read() / 10);
         break;
       case "=":
-        if (evaldisplay.innerText != "") display.innerText = evaldisplay.innerText;
+        if (evaldisplay.innerText != "")
+          display.innerText = evaldisplay.innerText;
         calculate();
+        lastShrink = 0;
+        resize();
         break;
     }
   }
