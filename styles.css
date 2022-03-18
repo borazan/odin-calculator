@@ -38,11 +38,26 @@ html {
     width: 400px;
     border-radius: 20px;
     margin-bottom: 20px;
-    margin-top: 130px;
+    margin-top: 30px;
     justify-self: center;
     align-self: center;
     text-align: end;
     user-select: text;
+}
+
+.evaldisplay {
+    color: #fafbfa;
+    background-color: #000;
+    font-size: 60px;
+    font-weight: lighter;
+    height: 100px;
+    width: 400px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    justify-self: center;
+    align-self: center;
+    text-align: end;
 }
 
 .buttons {
