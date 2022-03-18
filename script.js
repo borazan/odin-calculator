@@ -37,6 +37,7 @@ const wrapper = document.querySelector(".wrapper");
 const display = document.querySelector(".display");
 const buttons = document.querySelector(".buttons");
 const timeDiv = document.querySelector(".time");
+const operands = ["+", "-", "\u00F7", "\u00D7"];
 var output = display.innerText;
 var number;
 // ~~~ SELECTORS ~~~ //
@@ -125,17 +126,36 @@ function read() {
 }
 
 function write(passed) {
-  console.log(`write() took in ${input} as input`);
   let input = passed.toString();
-  if (input.includes(".")){
-    input = input.toFixed(3);
-    while (input[input.length-1] == "0"){
-      input = input.slice()
+  console.log(`write() took in ${input} as input`);
+  if (input.includes(".")) {
+    input = parseFloat(input).toFixed(3);
+    while (input[input.length - 1] == "0") {
+      input = input.slice(0, input.length - 1);
     }
-    display.innerText = input.toFixed(3);
+    display.innerText = input;
   } else display.innerText = input;
 }
 
+function hasOperands() {
+  let text = display.innerText;
+  for (let i = 0; i < text.length; i++) {
+    let char = text[i];
+    if (char == "-" && i == 0) continue;
+    else if (operands.includes(char)) return true;
+  }
+  return false;
+}
+
+//ensures safe eval execution to prevent injection
+function calculate() {
+  let calculation = display.innerText.replace(/[^-\d\u{00F7}\u{00D7}+.]/gu, "");
+  calculation = calculation.replace(/[\u{00F7}]/gu, "/"); //replace division
+  calculation = calculation.replace(/[\u{00D7}]/gu, "*"); //replace multiply
+  //TODO: catch invalid math expressions and show ERROR on display
+  calculation = eval(calculation);
+  console.log(calculation);
+}
 createButtons();
 
 wrapper.addEventListener("click", function (e) {
@@ -152,8 +172,10 @@ wrapper.addEventListener("click", function (e) {
         } else display.innerText = "-" + display.innerText;
         break;
       case "%":
-        write(read() / 10); 
+        write(read() / 10);
         break;
+      case "=":
+
     }
   }
 });
