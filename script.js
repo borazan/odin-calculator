@@ -39,12 +39,14 @@ const buttons = document.querySelector(".buttons");
 const timeDiv = document.querySelector(".time");
 var output = display.innerText;
 // ~~~ SELECTORS ~~~ //
-var current = new Date();
-// var timeVar =
-//   current.toLocaleTimeString().slice(0, -6) +
-//   current.toLocaleTimeString().slice(-2);
-var timeVar = current.getHours() + ":" + current.getMinutes();
-timeDiv.innerHTML = timeVar;
+
+function updateTime() {
+  var current = new Date();
+  var timeVar = current.getHours() + ":" + current.getMinutes();
+  timeDiv.innerHTML = timeVar;
+}
+updateTime();
+setInterval(updateTime,1000);
 
 function createButtons() {
   let keyTexts = [
