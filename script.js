@@ -34,6 +34,7 @@ const html = document.querySelector("html");
 const head = document.querySelector("head");
 const body = document.querySelector("body");
 const wrapper = document.querySelector(".wrapper");
+const evaldisplay = document.querySelector(".evaldisplay");
 const display = document.querySelector(".display");
 const buttons = document.querySelector(".buttons");
 const timeDiv = document.querySelector(".time");
@@ -153,18 +154,26 @@ function calculate() {
   calculation = calculation.replace(/[\u{00F7}]/gu, "/"); //replace division
   calculation = calculation.replace(/[\u{00D7}]/gu, "*"); //replace multiply
   //TODO: catch invalid math expressions and show ERROR on display
-  calculation = eval(calculation);
-  console.log(calculation);
+  try {
+    calculation = eval(calculation);
+  } catch (e) {
+    calculation = "";
+  }
+  if (calculation != display.innerText) evaldisplay.innerText = calculation;
+  else evaldisplay.innerText = "";
+  
 }
 createButtons();
 
 wrapper.addEventListener("click", function (e) {
   if (e.target.classList.contains("button")) {
-    if (!e.target.classList.contains("gray"))
+    if (!e.target.classList.contains("gray") && e.target.innerText != "=")
       display.innerText += e.target.innerText;
+    calculate();
     switch (e.target.innerText) {
       case "AC":
         display.innerText = "";
+        evaldisplay.innerText = "";
         break;
       case "+/-":
         if (display.innerText[0] == "-") {
@@ -175,7 +184,9 @@ wrapper.addEventListener("click", function (e) {
         write(read() / 10);
         break;
       case "=":
-
+        if (evaldisplay.innerText != "") display.innerText = evaldisplay.innerText;
+        calculate();
+        break;
     }
   }
 });
