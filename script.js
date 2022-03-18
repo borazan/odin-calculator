@@ -33,29 +33,91 @@ function operate(a, operator, b) {
 const html = document.querySelector("html");
 const head = document.querySelector("head");
 const body = document.querySelector("body");
-const wrapper = document.querySelector("wrapper");
-const display = document.querySelector("display");
-const buttons = document.querySelector("buttons");
+const wrapper = document.querySelector(".wrapper");
+const display = document.querySelector(".display");
+const buttons = document.querySelector(".buttons");
+const timeDiv = document.querySelector(".time");
+var output = display.innerText;
 // ~~~ SELECTORS ~~~ //
+var current = new Date();
+// var timeVar =
+//   current.toLocaleTimeString().slice(0, -6) +
+//   current.toLocaleTimeString().slice(-2);
+var timeVar = current.getHours() + ":" + current.getMinutes();
+timeDiv.innerHTML = timeVar;
 
 function createButtons() {
+  let keyTexts = [
+    "AC",
+    "+/-",
+    "%",
+    "\u00F7",
+    "7",
+    "8",
+    "9",
+    "\u00D7",
+    "4",
+    "5",
+    "6",
+    "-",
+    "1",
+    "2",
+    "3",
+    "+",
+    "0",
+    ".",
+    "=",
+  ];
   for (let i = 0; i < 19; i++) {
     let button = document.createElement("div");
     button.classList.add("button");
+    button.textContent = keyTexts[i];
+    switch (i) {
+      case 0:
+        button.classList.add("gray");
+        break;
+      case 1:
+        button.classList.add("gray");
+        break;
+      case 2:
+        button.classList.add("gray");
+        break;
+      case 3:
+        button.classList.add("orange");
+        button.classList.add("divide");
+        break;
+      case 7:
+        button.classList.add("orange");
+        break;
+      case 11:
+        button.classList.add("orange");
+        break;
+      case 15:
+        button.classList.add("orange");
+        break;
+      case 16:
+        button.classList.add("wider");
+        button.classList.add("number");
+        break;
+      case 18:
+        button.classList.add("orange");
+        break;
+      default:
+        button.classList.add("number");
+    }
+    if (i == 16) button.classList.add("wider");
     buttons.appendChild(button);
   }
 }
 
+createButtons();
+
 wrapper.addEventListener("click", function (e) {
   if (e.target.classList.contains("button")) {
-    //TODO: implement functionality
+    display.innerText += e.target.innerText;
+    switch (e.target.innerText) {
+      case "AC":
+        display.innerText = "";
+    }
   }
 });
-
-wrapper.addEventListener("mouseover", function (e) {
-  if (e.target.classList.contains("button")) {
-    //TODO: hovering
-  }
-});
-
-|
